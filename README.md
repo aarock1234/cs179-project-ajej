@@ -3,3 +3,6 @@
 # CS-179K Team AJEJ
 
 ## AJEJ, an online quiz social-media.
+- Create and share quizzes
+- Upvote or downvote quizzes
+- See most popular quizzes
