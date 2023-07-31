@@ -3,6 +3,33 @@
 # CS-179K Team AJEJ
 
 ## AJEJ, an online quiz social-media.
+- Web App
 - Create and share quizzes
 - Upvote or downvote quizzes
 - See most popular quizzes
+
+## Team Members:
+- Abdel, Sabbah, asabb006@ucr.edu
+- Jason, Corona, jcoro045@ucr.edu
+- Ethan, Blank, eblan012@ucr.edu
+- Juan, Yepez, jyepe007@ucr.edu
+
+## Technologies:
+- NextJS
+- PostgreSQL
+- TypeScript
+- React
+
+## Major Features:
+- Login System
+- Quiz Creation/Deletion/Edit
+- Like/Dislike System
+- Top Quizzes Feed
+- Following Feed
+- Quiz Search
+- Quiz Tags
+- Live Quizzes
+- Leaderboard Per Quiz
+- Copy Quiz (Maybe?)
+- Follow System
+- Question Types (Maybe?)
