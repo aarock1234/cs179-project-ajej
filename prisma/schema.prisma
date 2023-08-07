@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgres://quiz_43c1_user:i9F98JxM7HGAW8OBdoGnMB9MWpd5fKjv@dpg-cj6lrpavvtos73f0jl30-a.oregon-postgres.render.com/quiz_43c1"
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+
+  createdAt DateTime @default(now())
+
+  quizzes Quiz[]
+}
+
+model Quiz {
+  id Int @id @default(autoincrement())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title       String
+  description String
+  questions   Question[]
+
+  creator   User? @relation(fields: [creatorId], references: [id])
+  creatorId Int?
+}
+
+// enum QuestionType {
+//   MULTIPLE_CHOICE
+//   TRUE_FALSE
+//   SHORT_ANSWER
+// }
+
+model Question {
+  id Int @id @default(autoincrement())
+
+  type String
+
+  question String
+  // only for multiple choice questions
+  choices  String[] @default([])
+
+  answer String
+
+  Quiz   Quiz? @relation(fields: [quizId], references: [id])
+  quizId Int?
+}
