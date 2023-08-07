@@ -1,5 +1,3 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=11509578&assignment_repo_type=AssignmentRepo)
-
 # CS-179K Team AJEJ
 
 ## AJEJ, an online quiz social-media.
@@ -63,17 +61,3 @@
     - As a user I want to be able to duplicate a quiz either someone else or I have created.
 12. Question Types (Maybe?) (2 points)
     - As a user I want to be able to ask multiple types of questions in my quiz (multiple choice, free response, etc.).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
