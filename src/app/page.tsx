@@ -1,4 +1,5 @@
 "use client";
+import SigninButton from "@/components/SigninButton";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
@@ -11,6 +12,8 @@ export default function Home() {
   }, [session]);
 
   return (
-    <main></main>
+    <main className="flex min-h-screen flex-col items-center py-12 bg-white">
+      <SigninButton />
+    </main>
   );
 }
