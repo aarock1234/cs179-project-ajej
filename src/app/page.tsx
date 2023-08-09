@@ -1,5 +1,5 @@
 "use client";
-import SigninButton from "@/components/SigninButton";
+import SigninButton from "@/components/SignInButton";
 import { useSession, signIn } from "next-auth/react";
 import Image from "next/image";
 import { useEffect } from "react";
