@@ -30,6 +30,8 @@ model Quiz {
   description String
   questions   Question[]
 
+  likes Int @default(0)
+
   creator   User? @relation(fields: [creatorId], references: [id])
   creatorId Int?
 }
