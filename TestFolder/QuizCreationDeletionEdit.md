@@ -6,7 +6,8 @@
 2. Type in desired number of questions
 3. Type in desired questions and corresponding answers
 4. Click create quiz
-5. Be redirected to the owned quiz page where it will populate the quizzes the user has created if successful
+5. If user tries to create a quiz with less than 1 question, it will show an error message and the quiz will not be created.
+6. Be redirected to the owned quiz page where it will populate the quizzes the user has created if successful
 
 ### Test 2 (Delete a quiz)
 1. Go to the owned quizzes page
