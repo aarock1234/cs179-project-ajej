@@ -6,7 +6,7 @@ import { Question } from '@prisma/client';
 
 type NewQuizPageProps = {};
 
-export default function NewQuizPage({}: NewQuizPageProps) {
+export default function NewQuizPage({ }: NewQuizPageProps) {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [questions, setQuestions] = useState<Question[]>([]);
@@ -52,6 +52,14 @@ export default function NewQuizPage({}: NewQuizPageProps) {
 		newQuestions[questionIndex].choices = newQuestions[questionIndex].choices.filter(
 			(_, i) => i !== choiceIndex
 		);
+		setQuestions(newQuestions);
+	};
+
+	const handleSetCorrectChoice = (questionIndex: number, choiceIndex: number) => {
+		const newQuestions = [...questions];
+		newQuestions[questionIndex].answer = newQuestions[questionIndex].choices[
+			choiceIndex
+		];
 		setQuestions(newQuestions);
 	};
 
@@ -183,6 +191,16 @@ export default function NewQuizPage({}: NewQuizPageProps) {
 									</label>
 									{question.choices.map((choice, j) => (
 										<div key={j} className="flex flex-row mb-2">
+											{/** Radio button to select which is correct */}
+											<input
+												type="radio"
+												id={`question-${i}-answer`}
+												name={`question-${i}-answer`}
+												value={choice}
+												onChange={() => handleSetCorrectChoice(i, j)}
+												className='border border-slate-200 rounded-l mr-2'
+											>
+											</input>
 											<input
 												type="text"
 												id={`question-${i}-choice-${j}`}
@@ -218,6 +236,7 @@ export default function NewQuizPage({}: NewQuizPageProps) {
 									Answer
 								</label>
 								<input
+									disabled
 									type="text"
 									id={`question-${i}-answer`}
 									value={question.answer}
