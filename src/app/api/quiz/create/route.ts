@@ -1,10 +1,27 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient, Question } from '@prisma/client';
+import { z } from 'zod';
 
 const prisma = new PrismaClient();
 
-export default async function POST(req: NextApiRequest, res: NextApiResponse) {
-	const { title, description, questions } = req.body;
+const schema = z.object({
+	title: z.string(),
+	description: z.string(),
+	questions: z.array(
+		z.object({
+			type: z.enum(['MULTIPLE_CHOICE', 'TRUE_FALSE', 'SHORT_ANSWER']),
+			question: z.string(),
+			choices: z.array(z.string()),
+			answer: z.string(),
+		})
+	),
+});
+
+export async function POST(req: NextRequest) {
+	const body = schema.safeParse(await req.json());
+	if (!body.success) return NextResponse.json(body.error);
+
+	const { title, description, questions } = body.data;
 
 	try {
 		const newQuiz = await prisma.quiz.create({
@@ -12,7 +29,7 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
 				title,
 				description,
 				questions: {
-					create: questions.map((question: Question) => ({
+					create: questions.map((question) => ({
 						type: question.type,
 						question: question.question,
 						choices: { set: question.choices },
@@ -22,10 +39,10 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
 			},
 		});
 
-		return res.status(201).json(newQuiz);
+		return NextResponse.json(newQuiz, { status: 201 });
 	} catch (error) {
 		console.error(error);
-		return res.status(500).json({ message: 'Internal server error' });
+		return NextResponse.json({ error: 'Something went wrong' }, { status: 500 });
 	} finally {
 		await prisma.$disconnect();
 	}

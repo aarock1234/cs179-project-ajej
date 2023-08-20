@@ -1,14 +1,13 @@
 import { prisma } from "@/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { authOptions } from "../auth/[...nextauth]/route";
 
 const schema = z.object({
   username: z.string(),
   password: z.string(),
 });
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const body = schema.safeParse(await req.json());
   if (!body.success) return NextResponse.json(body.error);
 

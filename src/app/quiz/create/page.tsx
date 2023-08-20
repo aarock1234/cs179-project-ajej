@@ -6,7 +6,7 @@ import { Question } from '@prisma/client';
 
 type NewQuizPageProps = {};
 
-export default function NewQuizPage({ }: NewQuizPageProps) {
+export default function NewQuizPage({}: NewQuizPageProps) {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [questions, setQuestions] = useState<Question[]>([]);
@@ -57,9 +57,7 @@ export default function NewQuizPage({ }: NewQuizPageProps) {
 
 	const handleSetCorrectChoice = (questionIndex: number, choiceIndex: number) => {
 		const newQuestions = [...questions];
-		newQuestions[questionIndex].answer = newQuestions[questionIndex].choices[
-			choiceIndex
-		];
+		newQuestions[questionIndex].answer = newQuestions[questionIndex].choices[choiceIndex];
 		setQuestions(newQuestions);
 	};
 
@@ -91,6 +89,46 @@ export default function NewQuizPage({ }: NewQuizPageProps) {
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+
+		// check to see if theres a title
+		if (title === '') {
+			alert('Please add a title');
+			return;
+		}
+
+		// check to see if theres at least one question
+		if (questions.length === 0) {
+			alert('Please add at least one question');
+			return;
+		}
+
+		// check to see if theres an answer for each question
+		// also check if theres a text for each question
+		// and check if theres at least two choices for each question
+		for (const question of questions) {
+			if (question.question === '') {
+				alert('Please add a question text for each question');
+				return;
+			}
+
+			if (question.choices.length < 2) {
+				alert('Please add at least two choices for each question');
+				return;
+			}
+
+			for (const choice of question.choices) {
+				if (choice === '') {
+					alert('Please add a choice for each question');
+					return;
+				}
+			}
+
+			if (question.answer === '') {
+				alert('Please select an answer for each question');
+				return;
+			}
+		}
+
 		const response = await fetch('/api/quiz/create', {
 			method: 'POST',
 			headers: {
@@ -198,9 +236,8 @@ export default function NewQuizPage({ }: NewQuizPageProps) {
 												name={`question-${i}-answer`}
 												value={choice}
 												onChange={() => handleSetCorrectChoice(i, j)}
-												className='border border-slate-200 rounded-l mr-2'
-											>
-											</input>
+												className="border border-slate-200 rounded-l mr-2"
+											></input>
 											<input
 												type="text"
 												id={`question-${i}-choice-${j}`}
