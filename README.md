@@ -23,15 +23,15 @@
 ## Major Features
 
 1. Login System
-2. Quiz Creation/Deletion/Edit
-3. Like/Dislike System
-4. Leaderboard Per Quiz
-5. Top Quizzes Feed (By likes + views)
-6. Quiz Search
-7. Quiz Tags
-8. Follow System
-9. Following Feed
-10. Live Quizzes
+2. Quiz Creation
+3. View Quiz/Take Quiz
+4. Like/Unlike System
+5. Top Quizzes Feed (By likes and/or views)
+6. Leaderboard Per Quiz
+7. Quiz Search
+8. Quiz Tags
+9. Follow System
+10. Following Feed
 11. Copy Quiz (Maybe?)
 12. Question Types (Maybe?)
 
