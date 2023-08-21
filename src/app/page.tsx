@@ -6,7 +6,9 @@ import { useEffect, useState } from 'react';
 import User from '@/../public/user.svg';
 import SignupModal from '@/components/SignUpModal';
 import SigninButton from '@/components/SignInButton';
-import { Quiz } from '@prisma/client';
+import { Like, Quiz } from '@prisma/client';
+
+type QuizLikes = Quiz & { likes: Like[] };
 
 export default function Home() {
 	const session = useSession();
@@ -66,14 +68,15 @@ export default function Home() {
 							<p className="text-2xl font-bold text-slate-500">Loading...</p>
 						</div>
 					)}
-					{quizzes.map((quiz: Quiz, i) => (
+					{quizzes.map((quiz: QuizLikes, i) => (
 						<div className="flex flex-col gap-2 border-2 p-2 rounded-md">
 							<li>
-                <p className="text-md text-slate-400">
-                  #{i + 1}
-                </p>
-								<a className='text-lg text-slate-500 hover:text-slate-600' href={`/quiz/${quiz.id}`}>
-									{quiz.title} ({quiz.likes} likes)
+								<p className="text-md text-slate-400">#{i + 1}</p>
+								<a
+									className="text-lg text-slate-500 hover:text-slate-600"
+									href={`/quiz/${quiz.id}`}
+								>
+									{quiz.title} ({quiz.likes?.length} likes)
 								</a>
 								<p className="text-md text-slate-400">
 									Description: {quiz.description}

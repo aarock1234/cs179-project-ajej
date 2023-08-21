@@ -18,6 +18,7 @@ model User {
   createdAt DateTime @default(now())
 
   quizzes Quiz[]
+  Like    Like[]
 }
 
 model Quiz {
@@ -30,10 +31,22 @@ model Quiz {
   description String
   questions   Question[]
 
-  likes Int @default(0)
-
-  creator   User? @relation(fields: [creatorId], references: [id])
+  creator   User?  @relation(fields: [creatorId], references: [id])
   creatorId Int?
+  
+  likes     Like[]
+}
+
+model Like {
+  id Int @id @default(autoincrement())
+
+  createdAt DateTime @default(now())
+
+  quiz   Quiz? @relation(fields: [quizId], references: [id])
+  quizId Int?
+
+  user   User? @relation(fields: [userId], references: [id])
+  userId Int?
 }
 
 // enum QuestionType {

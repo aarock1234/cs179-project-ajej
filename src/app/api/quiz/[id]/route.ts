@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
 			where: { id: quizId },
 			include: {
 				questions: true,
+				likes: true,
 			},
 		});
 

@@ -1,18 +1,22 @@
 'use client';
 
 import { useState } from 'react';
-import { Question, Quiz } from '@prisma/client';
+import { Like, Question, Quiz } from '@prisma/client';
 import Navbar from '@/components/Navbar';
+import { useSession } from 'next-auth/react';
+import { AiFillLike } from 'react-icons/ai';
 
 type Props = {};
 
 type QuizQuestions = Quiz & {
 	questions: Question[];
+	likes: Like[];
 };
 
 export default function QuizPage(props: Props) {
 	const [quiz, setQuiz] = useState<QuizQuestions | null>(null);
 	const [answers, setAnswers] = useState<string[]>([]);
+	const session = useSession();
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -27,6 +31,34 @@ export default function QuizPage(props: Props) {
 		const result = await response.json();
 
 		window.location.href = `/results/${result.id}`;
+	};
+
+	const handleLike = async () => {
+		const id = window?.location?.pathname?.split('/')?.[2];
+		const response = await fetch(`/api/quiz/${id}/like`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				/* @ts-ignore */
+				userId: Number(session.data?.user?.id),
+				quizId: Number(id),
+			}),
+		});
+		
+		const data = await response.json();
+
+		if (!response.ok) {
+			window.alert(data.error);
+			return;
+		}
+
+		setQuiz({
+			...quiz,
+			likes: data.quiz?.likes as Like[],
+			questions: data.quiz?.questions as Question[],
+		} as QuizQuestions);
 	};
 
 	const fetchQuiz = async () => {
@@ -63,8 +95,23 @@ export default function QuizPage(props: Props) {
 		<main className="flex flex-col items-center min-h-screen bg-gray-100">
 			<Navbar />
 			<div className="w-2/3 mt-8">
-				<h2 className="text-2xl font-medium text-slate-500 mb-4">{quiz.title}</h2>
-				<p className="text-md text-slate-400">{quiz.description}</p>
+				<h2 className="text-2xl font-medium text-slate-500">{quiz.title}</h2>
+				{session.status == 'authenticated' ? (
+					<button
+						onClick={handleLike}
+						className="flex flex-row items-center text-md text-slate-400 mb-4 space-x-1 hover:text-slate-500 transition ease-in-out duration-300 delay-50 focus:outline-none"
+					>
+						<p className="">
+							{quiz.likes.length} {quiz.likes.length === 1 ? 'like' : 'likes'}
+						</p>
+						<AiFillLike />
+					</button>
+				) : (
+					<p className="text-md text-slate-400">
+						{quiz.likes.length} {quiz.likes.length === 1 ? 'like' : 'likes'}
+					</p>
+				)}
+				<p className="text-md text-slate-400 mb-4">{quiz.description}</p>
 				<form onSubmit={handleSubmit}>
 					<ul className="space-y-4">
 						{quiz?.questions?.map((question: Question, i: number) => (
