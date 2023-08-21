@@ -22,7 +22,7 @@
 
 ## Major Features
 
-1. Login System
+1. Sign up/Sign in System
 2. Quiz Creation
 3. View Quiz/Take Quiz
 4. Like/Unlike System
