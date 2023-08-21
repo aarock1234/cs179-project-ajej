@@ -3,13 +3,29 @@
 import { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import { Question } from '@prisma/client';
+import { useSession } from 'next-auth/react';
 
 type NewQuizPageProps = {};
 
 export default function NewQuizPage({}: NewQuizPageProps) {
+	const session = useSession();
+
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [questions, setQuestions] = useState<Question[]>([]);
+
+	if (session.status !== 'authenticated') {
+		return (
+			<div className="min-h-screen bg-gray-100">
+				<Navbar />
+				<div className="ease-in duration-100 text-slate-500 border-slate-200 max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+					<div className="bg-white p-10 rounded-lg shadow-lg text-slate-500">
+						<h1 className="text-2xl font-bold mb-4">Please sign in to create a quiz</h1>
+					</div>
+				</div>
+			</div>
+		);
+	}
 
 	const handleQuestionTypeChange = (
 		event: React.ChangeEvent<HTMLSelectElement>,
@@ -134,10 +150,19 @@ export default function NewQuizPage({}: NewQuizPageProps) {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ title, description, questions }),
+			body: JSON.stringify({
+				title,
+				description,
+				questions,
+				/*@ts-ignore*/
+				creatorId: Number(session.data?.user?.id),
+			}),
 		});
+
 		if (response.ok) {
 			const newQuiz = await response.json();
+
+			window.location.href = `/quiz/${newQuiz.id}`;
 		} else {
 			console.error(response.statusText);
 		}

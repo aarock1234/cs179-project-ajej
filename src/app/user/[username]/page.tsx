@@ -49,14 +49,14 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
 					<p className="text-lg font-medium mb-2">Quizzes:</p>
 					<ul className="list-disc pl-6">
 						{user?.quizzes.map((quiz) => (
-							<li key={quiz.id}>
-								<a
-									href={`/quiz/${quiz.id}`}
-									className="text-blue-500 hover:underline"
-								>
-									{quiz.title}
-								</a>
-							</li>
+							<div className="flex flex-col gap-2">
+								<li>
+									<a href={`/quiz/${quiz.id}`}>{quiz.title} ({quiz.likes} likes)</a>
+									<p className="text-md text-slate-400">
+										Description: {quiz.description}
+									</p>
+								</li>
+							</div>
 						))}
 					</ul>
 				</div>

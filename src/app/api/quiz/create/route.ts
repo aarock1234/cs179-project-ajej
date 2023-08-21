@@ -15,6 +15,7 @@ const schema = z.object({
 			answer: z.string(),
 		})
 	),
+	creatorId: z.number(),
 });
 
 export async function POST(req: NextRequest) {
@@ -36,6 +37,7 @@ export async function POST(req: NextRequest) {
 						answer: question.answer,
 					})),
 				},
+				creatorId: body.data.creatorId,
 			},
 		});
 
