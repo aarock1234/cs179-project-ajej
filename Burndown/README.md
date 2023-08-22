@@ -9,3 +9,6 @@
 
 ## Week 3
 ![](img/burndown_3.png)
+
+## Week 4
+![](img/burndown_4.png)
