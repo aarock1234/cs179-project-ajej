@@ -6,7 +6,7 @@
 2. Select a category
 3. Be able view that quiz when filtering by the catergory selected in the previous step
 
-4. ### Test 2 (View other people's tagged quizzes)
+### Test 2 (View other people's tagged quizzes)
 1. Click on the filter by tags button
 2. Select a category/tag
 3. Be able view and take quizzes from categories selected in the previous step
