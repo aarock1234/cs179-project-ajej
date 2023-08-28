@@ -29,7 +29,7 @@
 5. Top Quizzes Feed (By likes and/or views) - There should be a page that allows users to see the top quizzes on the app.  It will be ordered by which ones have the most likes and users can click on the quizzes from that page to take the particular quiz.
 6. Leaderboard Per Quiz - After taking a quiz, users will be able to see a leaderboard of other users who have taken the quiz, ordered by number of questions answered correctly.
 7. Quiz Search - Users will be able to search for a quiz by using a search bar and typing in either the quiz name or the name of the user who created the quiz.  The page will then display the search results.
-8. Quiz Tags - Users will be able to tag the quizzes they create to a specific category to make it easier to search of find quizzes of a particular subject/category.
+8. Quiz Tags - Users will be able to tag the quizzes they create to a specific category to make it easier to search and find quizzes of a particular subject/category.
 9. Follow System - Users will be able to follow other users.
 10. Following Feed - Users will be able to see a list of quizzes that were posted by the users that they follow.
 
