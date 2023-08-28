@@ -22,18 +22,17 @@
 
 ## Major Features
 
-1. Sign up/Sign in System
-2. Quiz Creation
-3. View Quiz/Take Quiz
-4. Like/Unlike System
+1. Sign up/Sign in System - create a security system to allow users to view/take quizes from other creators
+2. Quiz Creation - allow users to create quizes when they have signed up and signed into AJEJ
+3. View Quiz/Take Quiz - have a front end that allows users to view/take quizzes in a simple intuitive manner
+4. Like/Unlike System - have a system that displays popularity within th created quizzes
 5. Top Quizzes Feed (By likes and/or views)
 6. Leaderboard Per Quiz
 7. Quiz Search
 8. Quiz Tags
 9. Follow System
 10. Following Feed
-11. Copy Quiz (Maybe?)
-12. Question Types (Maybe?)
+
 
 ## User Stories
 
