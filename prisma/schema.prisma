@@ -31,10 +31,12 @@ model Quiz {
   description String
   questions   Question[]
 
-  creator   User?  @relation(fields: [creatorId], references: [id])
+  creator   User? @relation(fields: [creatorId], references: [id])
   creatorId Int?
-  
-  likes     Like[]
+
+  likes Like[]
+
+  tags String[]
 }
 
 model Like {
