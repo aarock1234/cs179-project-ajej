@@ -7,11 +7,12 @@ import { useSession } from 'next-auth/react';
 
 type NewQuizPageProps = {};
 
-export default function NewQuizPage({}: NewQuizPageProps) {
+export default function NewQuizPage({ }: NewQuizPageProps) {
 	const session = useSession();
 
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
+	const [tags, setTags] = useState<string[]>([]);
 	const [questions, setQuestions] = useState<Question[]>([]);
 
 	if (session.status !== 'authenticated') {
@@ -103,6 +104,29 @@ export default function NewQuizPage({}: NewQuizPageProps) {
 		setQuestions(newQuestions);
 	};
 
+	const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === "Enter") {
+			e.preventDefault();
+			if (tags.length >= 5) {
+				if (typeof window !== 'undefined') {
+					alert('You can only have up to 5 tags');
+				}
+
+				return;
+			};
+
+			const newTag = e.currentTarget.value.trim();
+			if (newTag && !tags.includes(newTag)) {
+				setTags([...tags, newTag]);
+				e.currentTarget.value = '';
+			}
+		}
+	};
+
+	const handleRemoveTag = (index: number) => {
+		setTags(tags.filter((_, i) => i !== index));
+	};
+
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
@@ -154,6 +178,7 @@ export default function NewQuizPage({}: NewQuizPageProps) {
 				title,
 				description,
 				questions,
+				tags,
 				/*@ts-ignore*/
 				creatorId: Number(session.data?.user?.id),
 			}),
@@ -199,6 +224,32 @@ export default function NewQuizPage({}: NewQuizPageProps) {
 							onChange={(event) => setDescription(event.target.value)}
 							className="border border-slate-200 rounded px-3 py-2 w-full"
 						/>
+					</div>
+					<div className="mb-6">
+						<label htmlFor="tags" className="block font-medium mb-2">
+							Tags {`(${tags.length} / 5)`}
+						</label>
+						<div className="flex flex-wrap">
+							{tags.map((tag, index) => (
+								<div key={index} className="flex items-center border-2 border-slate-200 rounded px-3 py-1 mr-1 my-1">
+									<span>{tag}</span>
+									<button
+										type="button"
+										onClick={() => handleRemoveTag(index)}
+										className="ml-2 text-sm text-red-500 hover:text-red-600"
+									>×</button>
+								</div>
+							))}
+						</div>
+						<div className='flex flex-row items-center'>
+							<input
+								type="text"
+								id="newTag"
+								placeholder="New Tag"
+								onKeyDown={handleAddTag} // function to add a tag
+								className="border border-slate-200 rounded px-3 py-2 w-full mt-2"
+							/>
+						</div>
 					</div>
 					{questions.map((question, i) => (
 						<div key={i} className="border-slate-200 border rounded-md p-2 mb-6">

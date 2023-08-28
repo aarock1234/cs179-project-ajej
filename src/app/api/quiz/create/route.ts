@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient, Question } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
 
 const prisma = new PrismaClient();
@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 const schema = z.object({
 	title: z.string(),
 	description: z.string(),
+	tags: z.array(z.string()),
 	questions: z.array(
 		z.object({
 			type: z.enum(['MULTIPLE_CHOICE', 'TRUE_FALSE', 'SHORT_ANSWER']),
@@ -22,7 +23,7 @@ export async function POST(req: NextRequest) {
 	const body = schema.safeParse(await req.json());
 	if (!body.success) return NextResponse.json(body.error);
 
-	const { title, description, questions } = body.data;
+	const { title, description, tags, questions } = body.data;
 
 	try {
 		const newQuiz = await prisma.quiz.create({
@@ -37,6 +38,7 @@ export async function POST(req: NextRequest) {
 						answer: question.answer,
 					})),
 				},
+				tags: { set: tags },
 				creatorId: body.data.creatorId,
 			},
 		});
