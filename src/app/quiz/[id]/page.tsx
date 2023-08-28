@@ -135,7 +135,10 @@ export default function QuizPage(props: Props) {
 						{quiz.likes.length} {quiz.likes.length === 1 ? 'like' : 'likes'}
 					</p>
 				)}
-				<p className="text-md text-slate-400 mb-4">{quiz.description}</p>
+				<p className="text-lg text-slate-400">Description: {quiz.description}</p>
+				<p className="text-lg text-slate-400 mb-4">
+					Tags: {quiz.tags?.join(', ')}
+				</p>
 				<form onSubmit={handleSubmit}>
 					<ul className="space-y-4">
 						{quiz?.questions?.map((question: Question, i: number) => (
