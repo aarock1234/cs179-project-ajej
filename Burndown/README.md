@@ -12,3 +12,6 @@
 
 ## Week 4
 ![](img/burndown_4.png)
+
+## Week 5
+![](img/burndown_5.png)
