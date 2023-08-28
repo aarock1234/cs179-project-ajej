@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Like, Question, Quiz } from '@prisma/client';
 import Navbar from '@/components/Navbar';
 import { useSession } from 'next-auth/react';
-import { AiFillLike } from 'react-icons/ai';
+import { AiFillDislike, AiFillLike } from 'react-icons/ai';
 
 type Props = {};
 
@@ -20,6 +20,11 @@ export default function QuizPage(props: Props) {
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+
+		if (typeof window === "undefined") {
+			return;
+		}
+
 		const id = window?.location?.pathname?.split('/')?.[2];
 		const response = await fetch(`/api/results/${id}`, {
 			method: 'POST',
@@ -30,7 +35,7 @@ export default function QuizPage(props: Props) {
 		});
 		const result = await response.json();
 
-		window.location.href = `/results/${result.id}`;
+		window ? window.location.href = `/results/${result.id}` : null;
 	};
 
 	const handleLike = async () => {
@@ -46,11 +51,15 @@ export default function QuizPage(props: Props) {
 				quizId: Number(id),
 			}),
 		});
-		
+
 		const data = await response.json();
 
 		if (!response.ok) {
-			window.alert(data.error);
+			if (typeof window === "undefined") {
+				return;
+			}
+
+			window?.alert(data.error);
 			return;
 		}
 
@@ -63,6 +72,10 @@ export default function QuizPage(props: Props) {
 
 	const fetchQuiz = async () => {
 		try {
+			if (typeof window === "undefined") {
+				return;
+			}
+
 			// get id from the url
 			const id = window?.location?.pathname?.split('/')?.[2];
 			const response = await fetch(`/api/quiz/${id}`, {
@@ -99,15 +112,26 @@ export default function QuizPage(props: Props) {
 				{session.status == 'authenticated' ? (
 					<button
 						onClick={handleLike}
-						className="flex flex-row items-center text-md text-slate-400 mb-4 space-x-1 hover:text-slate-500 transition ease-in-out duration-300 delay-50 focus:outline-none"
-					>
-						<p className="">
+						/* @ts-ignore */
+						className={"flex flex-row items-center text-xl mb-4 space-x-1 transition ease-in-out duration-300 delay-50 focus:outline-none" + (quiz.likes.find((like) => like.userId == session.data?.user?.id) ? (
+							" text-blue-500 hover:text-slate-400"
+						) : (" text-slate-400 hover:text-blue-500"))}>
+						{/* @ts-ignore */}
+						<p>
 							{quiz.likes.length} {quiz.likes.length === 1 ? 'like' : 'likes'}
 						</p>
-						<AiFillLike />
+						{
+							/* @ts-ignore */
+							quiz.likes.find((like) => like.userId == session.data?.user?.id) ? (
+								<AiFillDislike />
+							) : (
+								<AiFillLike />
+							)
+						}
+
 					</button>
 				) : (
-					<p className="text-md text-slate-400">
+					<p className="text-xl text-slate-400">
 						{quiz.likes.length} {quiz.likes.length === 1 ? 'like' : 'likes'}
 					</p>
 				)}
@@ -204,6 +228,6 @@ export default function QuizPage(props: Props) {
 					</button>
 				</form>
 			</div>
-		</main>
+		</main >
 	);
 }

@@ -17,18 +17,46 @@ export async function POST(req: NextRequest) {
 		const { userId, quizId } = body.data;
 
 		// check if user has already liked quiz
-		const likeExists = await prisma.like.findFirst({
+		let like = await prisma.like.findFirst({
 			where: {
 				userId,
 				quizId,
 			},
+			include: {
+				quiz: {
+					include: {
+						questions: true,
+						likes: true,
+					},
+				},
+			},
 		});
 
-        if (likeExists) {
-            return NextResponse.json({ error: 'User has already liked quiz' }, { status: 400 });
-        }
+		if (like) {
+			// remove the like if it exists
+			const deletedLike = await prisma.like.delete({
+				where: {
+					id: like.id,
+				},
+			});
 
-		const like = await prisma.like.create({
+			const quiz = await prisma.quiz.findUnique({
+				where: {
+					id: quizId,
+				},
+				include: {
+					questions: true,
+					likes: true,
+				},
+			});
+
+			return NextResponse.json({
+				liked: false,
+				quiz,
+			});
+		}
+
+		like = await prisma.like.create({
 			data: {
 				userId,
 				quizId,
@@ -37,13 +65,14 @@ export async function POST(req: NextRequest) {
 				quiz: {
 					include: {
 						questions: true,
-                        likes: true,
+						likes: true,
 					},
 				},
 			},
 		});
 
 		return NextResponse.json({
+			liked: true,
 			...like,
 			quiz: like.quiz,
 		});
