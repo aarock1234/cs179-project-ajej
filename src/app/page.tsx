@@ -71,15 +71,18 @@ export default function Home() {
 					{quizzes.map((quiz: QuizLikes, i) => (
 						<div className="flex flex-col gap-2 border-2 p-2 rounded-md">
 							<li>
-								<p className="text-md text-slate-400">#{i + 1}</p>
+								<p className="text-lg text-slate-400">#{i + 1}</p>
 								<a
-									className="text-lg text-slate-500 hover:text-slate-600"
+									className="text-xl text-slate-500 hover:text-slate-600"
 									href={`/quiz/${quiz.id}`}
 								>
 									{quiz.title} ({quiz.likes?.length} likes)
 								</a>
-								<p className="text-md text-slate-400">
+								<p className="text-lg text-slate-400">
 									Description: {quiz.description}
+								</p>
+								<p className="text-lg text-slate-400">
+									Tags: {quiz.tags?.join(', ')}
 								</p>
 							</li>
 						</div>
