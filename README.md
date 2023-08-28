@@ -25,7 +25,7 @@
 1. Sign up/Sign in System - create a security system to allow users to view/take quizes from other creators
 2. Quiz Creation - allow users to create quizes when they have signed up and signed into AJEJ
 3. View Quiz/Take Quiz - have a front end that allows users to view/take quizzes in a simple intuitive manner
-4. Like/Unlike System - have a system that displays popularity within th created quizzes
+4. Like/Unlike System - have a system that displays popularity within the created quizzes
 5. Top Quizzes Feed (By likes and/or views)
 6. Leaderboard Per Quiz
 7. Quiz Search
