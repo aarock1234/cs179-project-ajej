@@ -58,7 +58,3 @@
     - As a user I want to be able to see quizzes that the people I follow have created.
 11. Live Quizzes (3 points)
     - As a user I want to be able to partipcate in live quizzes (like Kahoot).
-12. Copy Quiz (Maybe?) (2 points)
-    - As a user I want to be able to duplicate a quiz either someone else or I have created.
-13. Question Types (Maybe?) (2 points)
-    - As a user I want to be able to ask multiple types of questions in my quiz (multiple choice, free response, etc.).
