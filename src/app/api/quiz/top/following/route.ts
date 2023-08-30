@@ -38,6 +38,9 @@ export async function POST(req: NextRequest) {
                     },
                 },
             },
+            orderBy: {
+                createdAt: 'desc',
+            },
         });
 
         const quizzes = follow.map((f) => f.following.quizzes).flat();

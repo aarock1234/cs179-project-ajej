@@ -2,12 +2,16 @@
 
 import Navbar from '@/components/Navbar';
 import { Like, Quiz } from '@prisma/client';
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { use, useEffect, useState } from 'react';
 
 type QuizLikes = Quiz & { likes: Like[] };
 
-function SearchQuizzes() {
-	const [query, setQuery] = useState('');
+export default function Search() {
+	const searchParams = useSearchParams();
+	const query = searchParams.get('query') ?? '';
+
+	const [searchBar, setSearchBar] = useState<string>(query);
 	const [quizzes, setQuizzes] = useState([]);
 	const [loading, setLoading] = useState(false);
 
@@ -19,7 +23,7 @@ function SearchQuizzes() {
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({ query }),
+				body: JSON.stringify({ query: searchBar }),
 			});
 			const data = await res.json();
 			setQuizzes(data.quizzes);
@@ -30,6 +34,12 @@ function SearchQuizzes() {
 		}
 	};
 
+	useEffect(() => {
+		if (query) {
+			handleSearch();
+		}
+	}, [query]);
+
 	return (
 		<div className="min-h-screen bg-gray-100">
 			<Navbar /> {/* Include the Navbar here */}
@@ -38,13 +48,13 @@ function SearchQuizzes() {
 					className="mr-2 w-1/2 p-2 border text-slate-500 border-slate-200 rounded transition ease-in-out duration-300 delay-50"
 					type="text"
 					placeholder="Search quizzes..."
-					value={query}
+					value={searchBar}
 					onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
 						if (e.key === 'Enter') {
 							handleSearch();
 						}
 					}}
-					onChange={(e) => setQuery(e.target.value)}
+					onChange={(e) => setSearchBar(e.target.value)}
 				/>
 				<button
 					className="transition ease-in-out duration-300 delay-50 bg-slate-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -83,5 +93,3 @@ function SearchQuizzes() {
 		</div>
 	);
 }
-
-export default SearchQuizzes;
