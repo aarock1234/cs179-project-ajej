@@ -1,13 +1,26 @@
 'use client';
 import Navbar from '@/components/Navbar';
 import Image from 'next/image';
-import User from '@/../public/user.svg';
+import UserImage from '@/../public/user.svg';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { Like, Question, Quiz, Result, User } from '@prisma/client';
 
 type ProfilePageProps = {
 	params: { username: string };
+};
+
+type QuizQuestions = Quiz & {
+	questions: Question[];
+};
+type ResultQuiz = Result & {
+	quiz: QuizQuestions;
+};
+type QuizLikes = Quiz & { likes: Like[] };
+type UserResultsQuizzes = User & {
+	results: ResultQuiz[];
+	quizzes: QuizLikes[];
 };
 
 export default function ProfilePage({ params }: ProfilePageProps) {
@@ -16,7 +29,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 	const session = useSession();
 	const router = useRouter();
 
-	const [user, setUser] = useState(null);
+	const [user, setUser] = useState<UserResultsQuizzes>();
 	const [loading, setLoading] = useState(true);
 
 	const [newUsername, setNewUsername] = useState('');
@@ -162,7 +175,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 				<div className="bg-white h-screen p-10 rounded-lg shadow-lg text-slate-500">
 					<div className="flex flex-row items-center mb-6">
 						<div className="w-12 h-12 mr-4">
-							<Image src={User} width={48} height={48} alt="" />
+							<Image src={UserImage} width={48} height={48} alt="" />
 						</div>
 						<div>
 							{/** @ts-ignore */}
@@ -218,9 +231,34 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 							</div>
 						)}
 					</div>
+					<p className="text-lg font-medium mb-2">Results:</p>
+					<ul>
+						{user?.results.map((result, i) => (
+							<div key={i} className="flex flex-row gap-2">
+								<div className="flex-grow">
+									<li>
+										<div className="flex flex-col gap-2 border-2 p-2 rounded-md mb-4 w-1/4">
+											<li>
+												<p className="text-lg text-slate-400">#{i + 1}</p>
+												<a
+													className="text-xl text-slate-500 hover:text-slate-600"
+													href={`/quiz/${result.quizId}`}
+												>
+													{result.quiz?.title}
+												</a>
+												<p className="text-lg text-slate-400">
+													Score: {result.score} /{' '}
+													{result.quiz?.questions?.length}
+												</p>
+											</li>
+										</div>
+									</li>
+								</div>
+							</div>
+						))}
+					</ul>
 					<p className="text-lg font-medium mb-2">Quizzes:</p>
 					<ul>
-						{/** @ts-ignore */}
 						{user?.quizzes.map((quiz, i) => (
 							<div key={i} className="flex flex-row gap-2">
 								<div className="flex-grow">

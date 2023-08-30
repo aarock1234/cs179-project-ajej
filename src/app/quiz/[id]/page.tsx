@@ -229,7 +229,11 @@ export default function QuizPage(props: Props) {
 																	type="radio"
 																	name={`question-${i}`}
 																	value={choice}
-																	disabled={quizDone}
+																	disabled={
+																		quizDone ||
+																		/* @ts-ignore */
+																		!session.data?.user?.id
+																	}
 																	onChange={(event) => {
 																		const newAnswers = [
 																			...answers,
@@ -258,7 +262,10 @@ export default function QuizPage(props: Props) {
 														<input
 															type="radio"
 															name={`question-${i}`}
-															disabled={quizDone}
+															disabled={
+																/* @ts-ignore */
+																quizDone || !session.data?.user?.id
+															}
 															value="true"
 															onChange={(event) => {
 																const newAnswers = [...answers];
@@ -301,7 +308,8 @@ export default function QuizPage(props: Props) {
 											<input
 												type="text"
 												name={`question-${i}`}
-												disabled={quizDone}
+												/* @ts-ignore */
+												disabled={quizDone || !session.data?.user?.id}
 												onChange={(event) => {
 													const newAnswers = [...answers];
 													newAnswers[i] = {
@@ -318,10 +326,16 @@ export default function QuizPage(props: Props) {
 						</ul>
 						<button
 							type="submit"
-							disabled={quizDone}
+							/* @ts-ignore */
+							disabled={quizDone || !session.data?.user?.id}
 							className="bg-slate-300 py-2.5 hover:bg-slate-200 transition ease-in-out duration-300 delay-50 w-full focus:outline-none rounded-lg text-xs font-bold flex justify-center gap-4 text-black/50 mt-4"
 						>
-							Submit
+							{quizDone
+								? 'Quiz Done'
+								: /* @ts-ignore */
+								session.data?.user?.id
+								? 'Submit'
+								: 'Sign In to Submit'}
 						</button>
 					</form>
 				</div>
