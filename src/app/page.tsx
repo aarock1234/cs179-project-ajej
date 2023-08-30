@@ -2,10 +2,13 @@
 
 import Navbar from '@/components/Navbar';
 import { useEffect, useState } from 'react';
-import { Like, Quiz } from '@prisma/client';
+import { Like, Quiz, User } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 
-type QuizLikes = Quiz & { likes: Like[] };
+type QuizLikes = Quiz & {
+	creator: User;
+	likes: Like[];
+};
 
 export default function Home() {
 	const router = useRouter();
@@ -27,7 +30,6 @@ export default function Home() {
 						Most Popular Quizzes (by Likes)
 					</h2>
 					<ul className="space-y-4">
-						{/** Show loading */}
 						{quizzes.length === 0 && (
 							<div className="flex flex-col items-center justify-center h-full">
 								<p className="text-2xl font-bold text-slate-500">Loading...</p>
@@ -43,6 +45,11 @@ export default function Home() {
 									>
 										{quiz.title} ({quiz.likes?.length} likes)
 									</a>
+									<p className="text-lg text-slate-400 hover:text-slate-600 transition ease-in-out duration-300 delay-50">
+										<a href={`/user/${quiz.creator?.username}`}>
+											Created By: {quiz.creator?.username}
+										</a>
+									</p>
 									<p className="text-lg text-slate-400">
 										Description: {quiz.description}
 									</p>

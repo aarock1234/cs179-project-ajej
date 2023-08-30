@@ -52,6 +52,16 @@ export async function POST(req: NextRequest) {
 					followers: true,
 					following: true,
 					likes: true,
+					results: {
+						include: {
+							quiz: {
+								include: {
+									questions: true,
+									likes: true,
+								}
+							},
+						},
+					},
 				},
 			});
 
@@ -85,6 +95,16 @@ export async function POST(req: NextRequest) {
 				followers: true,
 				following: true,
 				likes: true,
+				results: {
+					include: {
+						quiz: {
+							include: {
+								questions: true,
+								likes: true,
+							}
+						},
+					},
+				},
 			},
 		});
 

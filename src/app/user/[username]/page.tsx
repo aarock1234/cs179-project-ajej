@@ -35,6 +35,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 	const [newUsername, setNewUsername] = useState('');
 	const [newPassword, setNewPassword] = useState('');
 	const [confirmNewPassword, setConfirmNewPassword] = useState('');
+	const [followLoading, setFollowLoading] = useState(false);
 
 	useEffect(() => {
 		if (session.status == 'loading') return;
@@ -57,7 +58,16 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 	}, [username, session.status]);
 
 	if (loading) {
-		return <p>Loading...</p>;
+		return (
+			<main>
+				<Navbar />
+				<div className="flex flex-col items-center min-h-screen bg-gray-100">
+					<div className="w-2/3 mt-8">
+						<h2 className="text-2xl font-medium text-slate-500 mb-4">Loading...</h2>
+					</div>
+				</div>
+			</main>
+		)
 	}
 
 	if (!user) {
@@ -83,8 +93,10 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 		);
 	}
 
-	const handleFollow = () => {
-		fetch(`/api/user/follow/`, {
+	const handleFollow = async () => {
+		setFollowLoading(true);
+
+		await fetch(`/api/user/follow/`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -188,10 +200,14 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 									'ml-4 bg-slate-500 text-white font-bold py-2 px-4 rounded transition ease-in-out duration-300 delay-50' +
 									(isFollowing() ? ' hover:bg-red-500' : ' hover:bg-blue-500')
 								}
-								onClick={handleFollow}
+								onClick={async () => {
+									await handleFollow();
+									setFollowLoading(false);
+								}}
+								disabled={followLoading}
 							>
 								{/* @ts-ignore */}
-								{isFollowing() ? 'Unfollow' : 'Follow'}
+								{followLoading ? 'Loading...' : isFollowing() ? 'Unfollow' : 'Follow'}
 							</button>
 						)}
 					</div>
@@ -233,7 +249,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 					</div>
 					<p className="text-lg font-medium mb-2">Results:</p>
 					<ul>
-						{user?.results.map((result, i) => (
+						{user?.results?.map((result, i) => (
 							<div key={i} className="flex flex-row gap-2">
 								<div className="flex-grow">
 									<li>
@@ -259,7 +275,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 					</ul>
 					<p className="text-lg font-medium mb-2">Quizzes:</p>
 					<ul>
-						{user?.quizzes.map((quiz, i) => (
+						{user?.quizzes?.map((quiz, i) => (
 							<div key={i} className="flex flex-row gap-2">
 								<div className="flex-grow">
 									<li>
