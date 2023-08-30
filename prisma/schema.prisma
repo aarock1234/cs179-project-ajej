@@ -18,7 +18,22 @@ model User {
   createdAt DateTime @default(now())
 
   quizzes Quiz[]
-  Like    Like[]
+  likes   Like[]
+
+  followers Follow[] @relation("Follower")
+  following Follow[] @relation("Following")
+}
+
+model Follow {
+  id Int @id @default(autoincrement())
+
+  createdAt DateTime @default(now())
+
+  follower   User @relation("Follower", fields: [followerId], references: [id])
+  followerId Int
+
+  following   User @relation("Following", fields: [followingId], references: [id])
+  followingId Int
 }
 
 model Quiz {
