@@ -56,5 +56,3 @@
     - As a user I want to be able to follow other users.
 10. Following Feed (2 points)
     - As a user I want to be able to see quizzes that the people I follow have created.
-11. Live Quizzes (3 points)
-    - As a user I want to be able to partipcate in live quizzes (like Kahoot).
