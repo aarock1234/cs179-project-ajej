@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import User from '@/../public/user.svg';
-import SignInButton from '@/components/SignInButton';
+import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
 import SignupModal from '@/components/SignUpModal';
 import { useState } from 'react';

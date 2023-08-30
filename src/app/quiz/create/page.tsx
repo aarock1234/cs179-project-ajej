@@ -255,21 +255,21 @@ export default function NewQuizPage({ }: NewQuizPageProps) {
 						<div key={i} className="border-slate-200 border rounded-md p-2 mb-6">
 							<div className="mb-2">
 								<div className="flex flex-row justify-between">
-									<label
+									{/* <label
 										htmlFor={`question-${i}-type`}
 										className="block font-medium mb-2"
 									>
 										Question Type
-									</label>
+									</label> */}
 									<button
 										type="button"
 										onClick={() => handleRemoveQuestion(i)}
-										className="ease-in duration-100 bg-red-500 rounded-md m-2 text-sm font-bold text-white px-3 py-2 hover:bg-red-600"
+										className="ease-in duration-100 bg-red-500 rounded-md mb-2 text-sm font-bold text-white px-3 py-2 hover:bg-red-600"
 									>
 										Delete
 									</button>
 								</div>
-								<select
+								{/* <select
 									id={`question-${i}-type`}
 									value={question.type}
 									onChange={(event) => handleQuestionTypeChange(event, i)}
@@ -278,7 +278,7 @@ export default function NewQuizPage({ }: NewQuizPageProps) {
 									<option value="MULTIPLE_CHOICE">Multiple Choice</option>
 									<option value="TRUE_FALSE">True/False</option>
 									<option value="SHORT_ANSWER">Short Answer</option>
-								</select>
+								</select> */}
 							</div>
 							<div className="mb-2">
 								<label

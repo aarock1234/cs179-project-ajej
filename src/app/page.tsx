@@ -34,7 +34,7 @@ export default function Home() {
 							</div>
 						)}
 						{quizzes.map((quiz: QuizLikes, i) => (
-							<div className="flex flex-col gap-2 border-2 p-2 rounded-md">
+							<div key={i} className="flex flex-col gap-2 border-2 p-2 rounded-md">
 								<li>
 									<p className="text-lg text-slate-400">#{i + 1}</p>
 									<a
@@ -49,9 +49,10 @@ export default function Home() {
 									{quiz.tags.length && (
 										<p className="text-lg text-slate-400">
 											Tags:{' '}
-											{quiz.tags.map((tag) => {
+											{quiz.tags.map((tag, j) => {
 												return (
 													<button
+														key={j}
 														className="border border-1 p-1 rounded rounded-xl m-0.5 hover:bg-slate-500 hover:text-white transition ease-in-out duration-300 delay-50"
 														onClick={() => {
 															router.push(`/search?query=${tag}`);

@@ -69,7 +69,10 @@ export default function Search() {
 				) : (
 					<ul>
 						{quizzes?.map((quiz: QuizLikes, i) => (
-							<div className="flex flex-col gap-2 border-2 p-2 rounded-md mb-4">
+							<div
+								key={i}
+								className="flex flex-col gap-2 border-2 p-2 rounded-md mb-4"
+							>
 								<li>
 									<p className="text-lg text-slate-400">#{i + 1}</p>
 									<a

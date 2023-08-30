@@ -2,7 +2,6 @@ import { z } from 'zod';
 import { Field, Form, Formik } from 'formik';
 import { useModalEscape } from '@/hooks/modal';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { signIn } from 'next-auth/react';
 
@@ -43,21 +42,26 @@ export default function SignupModal({ isOpen, setOpen }: SignupModalProps) {
 					<Formik
 						initialValues={{ username: '', password: '' }}
 						onSubmit={async (values: SignupType) => {
-							const useUserCreation = async (user: {
-								username: string;
-								password: string;
-							}) => {
-								await axios.post('/api/signup', user);
+							const res = await fetch('/api/signup', {
+								method: 'POST',
+								headers: {
+									'Content-Type': 'application/json',
+								},
+								body: JSON.stringify(values),
+							});
 
-								await signIn('credentials', {
-									username: user.username,
-									password: user.password,
-								});
+							if (!res.ok) {
+								const data = await res.json();
+								alert(data.error);
+								return;
+							}
 
-								return setSubmitted(true);
-							};
+							await signIn('credentials', {
+								username: values.username,
+								password: values.password,
+							});
 
-							await useUserCreation(values);
+							return setSubmitted(true);
 						}}
 						validationSchema={toFormikValidationSchema(SignupSchema)}
 					>

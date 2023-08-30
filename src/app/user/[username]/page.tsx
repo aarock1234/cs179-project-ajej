@@ -222,7 +222,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 					<ul>
 						{/** @ts-ignore */}
 						{user?.quizzes.map((quiz, i) => (
-							<div className="flex flex-row gap-2">
+							<div key={i} className="flex flex-row gap-2">
 								<div className="flex-grow">
 									<li>
 										<div className="flex flex-col gap-2 border-2 p-2 rounded-md mb-4 w-1/4">

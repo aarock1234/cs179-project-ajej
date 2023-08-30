@@ -3,7 +3,7 @@ import { signIn } from 'next-auth/react';
 type ButtonProps = {
 	loading: boolean;
 };
-function SigninButton({ loading }: ButtonProps) {
+function SignInButton({ loading }: ButtonProps) {
 	return (
 		<button
 			onClick={() => signIn()}
@@ -14,4 +14,4 @@ function SigninButton({ loading }: ButtonProps) {
 	);
 }
 
-export default SigninButton;
+export default SignInButton;

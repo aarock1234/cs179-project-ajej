@@ -36,7 +36,9 @@ export default function Home() {
 			<Navbar />
 			<div className="flex min-h-screen flex-col items-left px-7 bg-white">
 				<div className="w-2/3">
-					<h2 className="text-2xl font-medium text-slate-500 mb-4">Following Feed (by Most Recent)</h2>
+					<h2 className="text-2xl font-medium text-slate-500 mb-4">
+						Following Feed (by Most Recent)
+					</h2>
 					<ul className="space-y-4">
 						{/** Show loading */}
 						{loading ? (
@@ -52,7 +54,10 @@ export default function Home() {
 								</div>
 							) : (
 								quizzes?.map((quiz: QuizLikes, i) => (
-									<div className="flex flex-col gap-2 border-2 p-2 rounded-md">
+									<div
+										key={i}
+										className="flex flex-col gap-2 border-2 p-2 rounded-md"
+									>
 										<li>
 											<p className="text-lg text-slate-400">#{i + 1}</p>
 											<a
