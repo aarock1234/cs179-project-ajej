@@ -1,19 +1,13 @@
-# Quiz Search (2 points)
-## Story: As a user I want to be able to search for quizzes
+# Quiz Search (1 points)
+## Story: As a user I want to be able to search for quizzes.
 
-### Test 1 (Looking up quizzes by existing username)
-1. Go to search page
-2. Look up quizzes made by a specific user name
-3. List out all of the quizzes made by looked up username
-4. Allow user to click on quiz to take the desired quiz
+### Test 1 (Quiz Exists)
+1. Click on the search bar in the homepage
+2. Type in an existing quiz name
+3. Be able to view quizzes with that name
+4. Be able to take the quizzes and view their leaderboards
 
-### Test 2 (Looking up quizzes by existing tags)
-1. Go to search page
-2. Look up quizzes with a specific tag
-3. List out all of the quizzes that have the looked up tag
-4. Allow user to click on quiz to take the desired quiz
-
-### Test 3 (Looking up quizzes by non existing username/tag/description)
-1. Go to search page
-2. Look up quizzes made by a specific user name
-3. Display text saying no existing quizzes for search 
+### Test 2 (Quiz Does Not Exists)
+1. Click on the search bar in the homepage
+2. Type in a quiz name that does not exist
+3. Be able to view a "no quizzes available with that name" pop up text

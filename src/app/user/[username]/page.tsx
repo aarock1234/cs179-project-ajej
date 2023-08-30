@@ -4,7 +4,6 @@ import Image from 'next/image';
 import User from '@/../public/user.svg';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { Follow, User as UserType } from '@prisma/client';
 
 type ProfilePageProps = {
 	params: { username: string };
