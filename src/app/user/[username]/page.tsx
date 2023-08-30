@@ -194,7 +194,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 							<p className="text-2xl font-bold">{user?.username}</p>
 						</div>
 						{/** @ts-ignore */}
-						{session.data?.user?.id && session.data?.user?.id !== user?.id && (
+						{session.data?.user?.id && session.data?.user?.id != user?.id && (
 							<button
 								className={
 									'ml-4 bg-slate-500 text-white font-bold py-2 px-4 rounded transition ease-in-out duration-300 delay-50' +
