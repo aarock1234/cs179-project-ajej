@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Like, Question, Quiz } from '@prisma/client';
+import { Like, Question, Quiz, User } from '@prisma/client';
 import Navbar from '@/components/Navbar';
 import { useSession } from 'next-auth/react';
 import { AiFillDislike, AiFillLike } from 'react-icons/ai';
@@ -11,6 +11,7 @@ type Props = {};
 type QuizQuestions = Quiz & {
 	questions: Question[];
 	likes: Like[];
+	creator: User;
 };
 
 type Answer = {
@@ -169,6 +170,11 @@ export default function QuizPage(props: Props) {
 						Leaderboard
 					</a>
 					<h2 className="text-2xl mt-3 font-medium text-slate-500">{quiz.title}</h2>
+					<p className="text-lg text-slate-400 hover:text-slate-600 transition ease-in-out duration-300 delay-50">
+						<a href={`/user/${quiz.creator?.username}`}>
+							Created By: {quiz.creator?.username}
+						</a>
+					</p>
 					{session.status == 'authenticated' ? (
 						<button
 							onClick={handleLike}
@@ -334,8 +340,8 @@ export default function QuizPage(props: Props) {
 								? 'Quiz Done'
 								: /* @ts-ignore */
 								session.data?.user?.id
-								? 'Submit'
-								: 'Sign In to Submit'}
+									? 'Submit'
+									: 'Sign In to Submit'}
 						</button>
 					</form>
 				</div>

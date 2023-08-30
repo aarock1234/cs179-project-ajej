@@ -7,8 +7,9 @@ export async function GET() {
 	try {
 		const quizzes = await prisma.quiz.findMany({
 			include: {
-                likes: true,
-            },
+				likes: true,
+				creator: true
+			},
 			orderBy: {
 				likes: {
 					_count: 'desc',

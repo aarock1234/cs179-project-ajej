@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
 			include: {
 				questions: true,
 				likes: true,
+				creator: true,
 			},
 		});
 
