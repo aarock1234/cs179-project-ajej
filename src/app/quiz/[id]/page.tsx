@@ -25,6 +25,7 @@ export default function QuizPage(props: Props) {
 	const [answers, setAnswers] = useState<Answer[]>([]);
 	const [quizDone, setQuizDone] = useState(false);
 	const [quizGraded, setQuizGraded] = useState(false);
+	const [likeLoading, setLikeLoading] = useState(false);
 	const session = useSession();
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -91,6 +92,8 @@ export default function QuizPage(props: Props) {
 	};
 
 	const handleLike = async () => {
+		setLikeLoading(true);
+		
 		const id = window?.location?.pathname?.split('/')?.[2];
 		const response = await fetch(`/api/quiz/${id}/like`, {
 			method: 'POST',
@@ -175,9 +178,14 @@ export default function QuizPage(props: Props) {
 							Created By: {quiz.creator?.username}
 						</a>
 					</p>
-					{session.status == 'authenticated' ? (
+					{session.status == 'authenticated' ? likeLoading ? (
+						<div></div>
+					) : (
 						<button
-							onClick={handleLike}
+							onClick={async () => {
+								await handleLike();
+								setLikeLoading(false);
+							}}
 							className={
 								'flex flex-row items-center text-xl text-slate-400 mb-4 space-x-1 transition ease-in-out duration-300 delay-50 focus:outline-none' +
 								/* @ts-ignore */
@@ -185,7 +193,7 @@ export default function QuizPage(props: Props) {
 									? ' hover:text-red-400'
 									: ' hover:text-blue-500')
 							}
-							disabled={quizDone}
+							disabled={likeLoading}
 						>
 							{/* @ts-ignore */}
 							<p>
