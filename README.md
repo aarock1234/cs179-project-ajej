@@ -38,7 +38,7 @@
 
 1. Sign up/Sign in System (2 points)
     - As a user I want to be able to sign up for an account and log into that account.
-2. Quiz Creation/Deletion/Edit (3 points)
+2. Quiz Creation/Deletion (3 points)
     - As a user I want to be able to create a quiz, delete a quiz, and edit a quiz.
 3. Taking a Quiz (1 point)
      - As a user I ant to be able to take a quiz created by myself and/or other users.
