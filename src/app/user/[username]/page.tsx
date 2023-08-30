@@ -18,6 +18,8 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
+		if (session.status == 'loading') return;
+
 		fetch(`/api/user/${username}`, {
 			method: 'POST',
 			body: JSON.stringify({
@@ -33,7 +35,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 				console.error('Error fetching user:', error);
 				setLoading(false);
 			});
-	}, [username]);
+	}, [username, session.status]);
 
 	if (loading) {
 		return <p>Loading...</p>;
@@ -84,6 +86,27 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 			});
 	};
 
+	const handleDeleteQuiz = (quizId: Number) => {
+		fetch(`/api/quiz/delete`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				/* @ts-ignore */
+				userId: Number(session.data?.user?.id),
+				quizId: Number(quizId),
+			}),
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				setUser(data.user);
+			})
+			.catch((error) => {
+				console.error('Error deleting quiz:', error);
+			});
+	};
+
 	const isFollowing = () => {
 		/** @ts-ignore */
 		return user?.following?.find(
@@ -123,16 +146,27 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 					<ul className="list-disc pl-6">
 						{/** @ts-ignore */}
 						{user?.quizzes.map((quiz) => (
-							<div className="flex flex-col gap-2">
-								<li>
-									<a href={`/quiz/${quiz.id}`}>
+							<div className="flex flex-row gap-2">
+								<div className="flex-grow">
+									<li>
+										<a href={`/quiz/${quiz.id}`}>
+											{/** @ts-ignore */}
+											{quiz.title} {`${quiz.likes.length} likes`}
+										</a>
 										{/** @ts-ignore */}
-										{quiz.title} {`${quiz.likes.length} likes`}
-									</a>
-									<p className="text-md text-slate-400">
-										Description: {quiz.description}
-									</p>
-								</li>
+										{session.data?.user?.id == user?.id && (
+											<button
+												onClick={() => handleDeleteQuiz(quiz.id)}
+												className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded m-2"
+											>
+												Delete
+											</button>
+										)}
+										<p className="text-md text-slate-400">
+											Description: {quiz.description}
+										</p>
+									</li>
+								</div>
 							</div>
 						))}
 					</ul>
